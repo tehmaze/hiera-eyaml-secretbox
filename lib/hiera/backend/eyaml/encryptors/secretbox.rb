@@ -13,11 +13,11 @@ class Hiera
           VERSION = "0.1"
 
           self.options = {
-            :private_key => { :desc => "Path to private key", 
-                              :type => :string, 
+            :private_key => { :desc => "Path to private key",
+                              :type => :string,
                               :default => "./keys/private_key.box" },
-            :public_key => { :desc => "Path to public key",  
-                             :type => :string, 
+            :public_key => { :desc => "Path to public key",
+                             :type => :string,
                              :default => "./keys/public_key.box" },
           }
 
@@ -28,7 +28,7 @@ class Hiera
             raise StandardError, "secretbox_public_key is not defined" unless public_key
 
             # Receivers public key
-            public_key_b64 = File.read public_key 
+            public_key_b64 = File.read public_key
             public_key_bin = Base64.decode64 public_key_b64
             pub = RbNaCl::PublicKey.new(public_key_bin)
 
