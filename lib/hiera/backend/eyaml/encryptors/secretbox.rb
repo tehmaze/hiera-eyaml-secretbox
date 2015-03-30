@@ -74,7 +74,7 @@ class Hiera
             Utils.ensure_key_dir_exists private_key
             Utils.write_important_file :filename => private_key, :content => key_b64, :mode => 0600
             Utils.ensure_key_dir_exists public_key
-            Utils.write_important_file :filename => private_key, :content => pub_b64, :mode => 0644
+            Utils.write_important_file :filename => public_key, :content => pub_b64, :mode => 0644
             Utils.info 'Keys created OK'
 
           end
