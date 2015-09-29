@@ -9,6 +9,7 @@ Gem::Specification.new do |gem|
   gem.description   = "NaCl encryptor for use with hiera-eyaml"
   gem.summary       = "Encryption plugin for hiera-eyaml backend for Hiera"
   gem.author        = "Wijnand Modderman-Lenstra"
+  gem.email 	    = "maze@pyth0n.org"
   gem.license       = "MIT"
 
   gem.homepage      = "http://github.com/tehmaze/hiera-eyaml-secretbox"
@@ -17,5 +18,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency 'rbnacl', ['>=3.0.0']
+  gem.add_runtime_dependency 'rbnacl', '~> 3.0', '>= 3.0.0'
 end
