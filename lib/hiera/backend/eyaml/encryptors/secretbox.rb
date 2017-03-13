@@ -1,7 +1,8 @@
 require 'base64'
 require 'rbnacl'
 require 'hiera/backend/eyaml/encryptor'
-require 'hiera/backend/eyaml/utils'
+require 'hiera/backend/eyaml/encrypthelper'
+require 'hiera/backend/eyaml/logginghelper'
 require 'hiera/backend/eyaml/options'
 
 class Hiera
@@ -71,11 +72,11 @@ class Hiera
             pub = key.public_key
             pub_b64 = Base64.encode64 pub.to_bytes
 
-            Utils.ensure_key_dir_exists private_key
-            Utils.write_important_file :filename => private_key, :content => key_b64, :mode => 0600
-            Utils.ensure_key_dir_exists public_key
-            Utils.write_important_file :filename => public_key, :content => pub_b64, :mode => 0644
-            Utils.info 'Keys created OK'
+            EncryptHelper.ensure_key_dir_exists private_key
+            EncryptHelper.write_important_file :filename => private_key, :content => key_b64, :mode => 0600
+            EncryptHelper.ensure_key_dir_exists public_key
+            EncryptHelper.write_important_file :filename => public_key, :content => pub_b64, :mode => 0644
+            LoggingHelper.info 'Keys created OK'
 
           end
 
