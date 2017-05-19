@@ -11,7 +11,7 @@ class Hiera
       module Encryptors
 
         class SecretBox < Encryptor
-          VERSION = "0.3.0"
+          VERSION = "0.4.0"
 
           self.options = {
             :private_key => { :desc => "Path to private key",
