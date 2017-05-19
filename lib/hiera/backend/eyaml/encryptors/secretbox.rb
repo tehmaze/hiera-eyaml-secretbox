@@ -11,7 +11,7 @@ class Hiera
       module Encryptors
 
         class SecretBox < Encryptor
-          VERSION = "0.3.0"
+          VERSION = "0.4.0"
 
           self.options = {
             :private_key => { :desc => "Path to private key",
@@ -25,13 +25,8 @@ class Hiera
           self.tag = 'SecretBox'
 
           def self.encrypt plaintext
-            public_key = self.option :public_key
-            raise StandardError, "secretbox_public_key is not defined" unless public_key
-
             # Receivers public key
-            public_key_b64 = File.read public_key
-            public_key_bin = Base64.decode64 public_key_b64
-            pub = RbNaCl::PublicKey.new(public_key_bin)
+            pub = RbNaCl::PublicKey.new(public_key)
 
             # Senders private key
             key = RbNaCl::PrivateKey.generate
@@ -45,13 +40,8 @@ class Hiera
             public_key_bin = message.byteslice(0, RbNaCl::PublicKey::BYTES)
             ciphertext = message.byteslice(RbNaCl::PublicKey::BYTES, message.length)
 
-            private_key = self.option :private_key
-            raise StandardError, "secretbox_private_key is not defined" unless private_key
-
             # Receivers private key
-            private_key_b64 = File.read private_key
-            private_key_bin = Base64.decode64 private_key_b64
-            key = RbNaCl::PrivateKey.new(private_key_bin)
+            key = RbNaCl::PrivateKey.new(private_key)
 
             # Senders public key
             pub = RbNaCl::PublicKey.new(public_key_bin)
@@ -80,6 +70,29 @@ class Hiera
 
           end
 
+          def self.public_key
+            if ENV['SECRETBOX_PUBLIC_KEY']
+              public_key_b64 = ENV['SECRETBOX_PUBLIC_KEY']
+            elsif option(:public_key)
+              public_key_b64 = File.read(option(:public_key))
+            else
+              raise StandardError, "secretbox_public_key is not defined"
+            end
+            Base64.decode64(public_key_b64)
+          end
+          private_class_method :public_key
+
+          def self.private_key
+            if ENV['SECRETBOX_PRIVATE_KEY']
+              private_key_b64 = ENV['SECRETBOX_PRIVATE_KEY']
+            elsif option(:private_key)
+              private_key_b64 = File.read(option(:private_key))
+            else
+              raise StandardError, "secretbox_private_key is not defined"
+            end
+            Base64.decode64(private_key_b64)
+          end
+          private_class_method :private_key
         end
 
       end
