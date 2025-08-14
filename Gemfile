@@ -1,6 +1,6 @@
 source 'https://rubygems.org/'
 
-gem 'hiera-eyaml', ">=2.1.0"
+gem 'hiera-eyaml', ">=3.2.0"
 gem 'rbnacl'
 
 group :development do
